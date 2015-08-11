@@ -23,7 +23,11 @@ public class WaveFile {
     private final int INT_SIZE = 4;
     public final int NOT_SPECIFIED = -1;
     private int sampleSize = NOT_SPECIFIED;
+    private int sampleSizeInBits = NOT_SPECIFIED;
+    private float sampleRate = NOT_SPECIFIED;
+    private int channels = NOT_SPECIFIED;
     private long framesCount = NOT_SPECIFIED;
+    private int streamSpeed = NOT_SPECIFIED;
     private byte[] data = null;  // массив байт представляющий аудио-данные
     private AudioInputStream ais = null;
     private AudioFormat af = null;
@@ -47,11 +51,24 @@ public class WaveFile {
         // get audio format info
         af = ais.getFormat();
 
+        // get quantity of channels
+        channels = af.getChannels();
+
+        // get sample rate
+        sampleRate = af.getSampleRate();
+
         // get quantity frames og audio file
         framesCount = ais.getFrameLength();
 
+        // середня кількість біт на секунду, яку повинен обробляти аудіопрогравач,
+        // щоб програвати цей звук у реальному часі
+        streamSpeed = af.getFrameSize()*af.getChannels()*(int)af.getFrameRate();
+
         // розмір семпла в байтах
         sampleSize = af.getSampleSizeInBits() / 8;
+
+        // розмір семпла в бітах
+        sampleSizeInBits = af.getSampleSizeInBits();
 
         // data size in bites
         long dataLength = framesCount * af.getSampleSizeInBits() * af.getChannels() / 8;
@@ -77,7 +94,7 @@ public class WaveFile {
         }
 
         this.sampleSize = sampleSize;
-        this.af = new AudioFormat(sampleRate, sampleSize * 8, channels, true, false);
+        this.af = new AudioFormat(sampleRate, sampleSizeInBits, channels, true, false);
         this.data = new byte[samples.length * sampleSize];
 
         // заповнення даних
@@ -108,12 +125,20 @@ public class WaveFile {
     }
 
     /**
-     * Вертає кількість байтяке займає один семпл
+     * Вертає кількість байт яке займає один семпл
      *
-     * @return розмір семплу
+     * @return розмір семплу в байтах
      */
     public int getSampleSize() {
         return sampleSize;
+    }
+
+    /**
+     *  Вертає кількість біт яке займає один семпл
+     * @return розмір семплу в бітах
+     */
+    public int getSampleSizeInBits() {
+        return sampleSizeInBits;
     }
 
     /**
@@ -132,6 +157,34 @@ public class WaveFile {
      */
     public long getFramesCount() {
         return framesCount;
+    }
+
+    /**
+     *  Вертає кількість каналів
+     *
+     * @return кількість каналв
+     */
+    public int getChannels() {
+        return channels;
+    }
+
+    /**
+     * Вертає частоту дискретизації
+     *
+     * @return частоту дискретизації
+     */
+    public float getSampleRate() {
+        return sampleRate;
+    }
+
+    /**
+     *  Вертає середню кількість біт на секунду, яку повинен обробляти аудіопрогравач,
+     // щоб програвати цей звук у реальному часі
+     *
+     * @return кількість біт на секунду
+     */
+    public int getStreamSpeed() {
+        return streamSpeed;
     }
 
     /**
