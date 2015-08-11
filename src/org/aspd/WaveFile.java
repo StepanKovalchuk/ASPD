@@ -24,14 +24,14 @@ public class WaveFile {
     public final int NOT_SPECIFIED = -1;
     private int sampleSize = NOT_SPECIFIED;
     private long framesCount = NOT_SPECIFIED;
-    private byte[] data = null;  // массив байт представляющий аудио-данные
+    private byte[] data = null;  // РјР°СЃСЃРёРІ Р±Р°Р№С‚ РїСЂРµРґСЃС‚Р°РІР»СЏСЋС‰РёР№ Р°СѓРґРёРѕ-РґР°РЅРЅС‹Рµ
     private AudioInputStream ais = null;
     private AudioFormat af = null;
 
     /**
      * Create object of said wave-file
      *
-     * @param file - wave-файл
+     * @param file - wave-С„Р°Р№Р»
      * @throws UnsupportedAudioFileException
      * @throws IOException
      */
@@ -50,7 +50,7 @@ public class WaveFile {
         // get quantity frames og audio file
         framesCount = ais.getFrameLength();
 
-        // розмір семпла в байтах
+        // СЂРѕР·РјС–СЂ СЃРµРјРїР»Р° РІ Р±Р°Р№С‚Р°С…
         sampleSize = af.getSampleSizeInBits() / 8;
 
         // data size in bites
@@ -64,11 +64,11 @@ public class WaveFile {
     /**
      * Create object from int array
      *
-     * @param sampleSize - кількість байт займаємих семплом
-     * @param sampleRate - частота
-     * @param channels   - кількість каналів
-     * @param samples    - массив значень (дані)
-     * @throws Exception якщо розмір семпла меньше чим необхідно для збереження змінної int
+     * @param sampleSize - РєС–Р»СЊРєС–СЃС‚СЊ Р±Р°Р№С‚ Р·Р°Р№РјР°С”РјРёС… СЃРµРјРїР»РѕРј
+     * @param sampleRate - С‡Р°СЃС‚РѕС‚Р°
+     * @param channels   - РєС–Р»СЊРєС–СЃС‚СЊ РєР°РЅР°Р»С–РІ
+     * @param samples    - РјР°СЃСЃРёРІ Р·РЅР°С‡РµРЅСЊ (РґР°РЅС–)
+     * @throws Exception СЏРєС‰Рѕ СЂРѕР·РјС–СЂ СЃРµРјРїР»Р° РјРµРЅСЊС€Рµ С‡РёРј РЅРµРѕР±С…С–РґРЅРѕ РґР»СЏ Р·Р±РµСЂРµР¶РµРЅРЅСЏ Р·РјС–РЅРЅРѕС— int
      */
     WaveFile(int sampleSize, float sampleRate, int channels, int[] samples) throws Exception {
 
@@ -80,7 +80,7 @@ public class WaveFile {
         this.af = new AudioFormat(sampleRate, sampleSize * 8, channels, true, false);
         this.data = new byte[samples.length * sampleSize];
 
-        // заповнення даних
+        // Р·Р°РїРѕРІРЅРµРЅРЅСЏ РґР°РЅРёС…
         for (int i = 0; i < samples.length; i++) {
             setSampleInt(i, samples[i]);
         }
@@ -90,54 +90,54 @@ public class WaveFile {
     }
 
     /**
-     * Вертає формат аудіо-диних
+     * Р’РµСЂС‚Р°С” С„РѕСЂРјР°С‚ Р°СѓРґС–Рѕ-РґРёРЅРёС…
      *
-     * @return формат
+     * @return С„РѕСЂРјР°С‚
      */
     public AudioFormat getAudioFormat() {
         return af;
     }
 
     /**
-     * Вертає копію масиву даних wave-файлу у вигляді байтів
+     * Р’РµСЂС‚Р°С” РєРѕРїС–СЋ РјР°СЃРёРІСѓ РґР°РЅРёС… wave-С„Р°Р№Р»Сѓ Сѓ РІРёРіР»СЏРґС– Р±Р°Р№С‚С–РІ
      *
-     * @return масив байт
+     * @return РјР°СЃРёРІ Р±Р°Р№С‚
      */
     public byte[] getData() {
         return Arrays.copyOf(data, data.length);
     }
 
     /**
-     * Вертає кількість байтяке займає один семпл
+     * Р’РµСЂС‚Р°С” РєС–Р»СЊРєС–СЃС‚СЊ Р±Р°Р№С‚СЏРєРµ Р·Р°Р№РјР°С” РѕРґРёРЅ СЃРµРјРїР»
      *
-     * @return розмір семплу
+     * @return СЂРѕР·РјС–СЂ СЃРµРјРїР»Сѓ
      */
     public int getSampleSize() {
         return sampleSize;
     }
 
     /**
-     * Вертає duration сигнала в секундах
+     * Р’РµСЂС‚Р°С” duration СЃРёРіРЅР°Р»Р° РІ СЃРµРєСѓРЅРґР°С…
      *
-     * @return duration сигнала
+     * @return duration СЃРёРіРЅР°Р»Р°
      */
     public double getDurationTime() {
         return getFramesCount() / getAudioFormat().getFrameRate();
     }
 
     /**
-     * Вертає кількість фреймів (кадрів) в файлі
+     * Р’РµСЂС‚Р°С” РєС–Р»СЊРєС–СЃС‚СЊ С„СЂРµР№РјС–РІ (РєР°РґСЂС–РІ) РІ С„Р°Р№Р»С–
      *
-     * @return кількість фреймів
+     * @return РєС–Р»СЊРєС–СЃС‚СЊ С„СЂРµР№РјС–РІ
      */
     public long getFramesCount() {
         return framesCount;
     }
 
     /**
-     * Зберігає об"єкт WaveFile в стандартний файл формата WAVE
+     * Р—Р±РµСЂС–РіР°С” РѕР±"С”РєС‚ WaveFile РІ СЃС‚Р°РЅРґР°СЂС‚РЅРёР№ С„Р°Р№Р» С„РѕСЂРјР°С‚Р° WAVE
      *
-     * @param file Шлях для збереження файлу
+     * @param file РЁР»СЏС… РґР»СЏ Р·Р±РµСЂРµР¶РµРЅРЅСЏ С„Р°Р№Р»Сѓ
      * @throws IOException
      */
     public void saveFile(File file) throws IOException {
@@ -146,14 +146,14 @@ public class WaveFile {
     }
 
     /**
-     * Вертає значення семплу по порядковому номеру.Якщо дані записані в 2 канали,
-     * то необхідно враховувати, що семпли лівого і правого каналу чергуються.
-     * Наприклад, сепл під номером один це перший семпл лівого каналу,
-     * семпл номер два це перший семпл правого каналу, семпл номер три це другий семпл
-     * лівого каналу і т. д..
+     * Р’РµСЂС‚Р°С” Р·РЅР°С‡РµРЅРЅСЏ СЃРµРјРїР»Сѓ РїРѕ РїРѕСЂСЏРґРєРѕРІРѕРјСѓ РЅРѕРјРµСЂСѓ.РЇРєС‰Рѕ РґР°РЅС– Р·Р°РїРёСЃР°РЅС– РІ 2 РєР°РЅР°Р»Рё,
+     * С‚Рѕ РЅРµРѕР±С…С–РґРЅРѕ РІСЂР°С…РѕРІСѓРІР°С‚Рё, С‰Рѕ СЃРµРјРїР»Рё Р»С–РІРѕРіРѕ С– РїСЂР°РІРѕРіРѕ РєР°РЅР°Р»Сѓ С‡РµСЂРіСѓСЋС‚СЊСЃСЏ.
+     * РќР°РїСЂРёРєР»Р°Рґ, СЃРµРїР» РїС–Рґ РЅРѕРјРµСЂРѕРј РѕРґРёРЅ С†Рµ РїРµСЂС€РёР№ СЃРµРјРїР» Р»С–РІРѕРіРѕ РєР°РЅР°Р»Сѓ,
+     * СЃРµРјРїР» РЅРѕРјРµСЂ РґРІР° С†Рµ РїРµСЂС€РёР№ СЃРµРјРїР» РїСЂР°РІРѕРіРѕ РєР°РЅР°Р»Сѓ, СЃРµРјРїР» РЅРѕРјРµСЂ С‚СЂРё С†Рµ РґСЂСѓРіРёР№ СЃРµРјРїР»
+     * Р»С–РІРѕРіРѕ РєР°РЅР°Р»Сѓ С– С‚. Рґ..
      *
-     * @param sampleNumber - номер семпла, починаючи з 0
-     * @return значення семпла
+     * @param sampleNumber - РЅРѕРјРµСЂ СЃРµРјРїР»Р°, РїРѕС‡РёРЅР°СЋС‡Рё Р· 0
+     * @return Р·РЅР°С‡РµРЅРЅСЏ СЃРµРјРїР»Р°
      */
     public int getSampleInt(int sampleNumber) {
 
@@ -163,17 +163,17 @@ public class WaveFile {
                             + sampleSize);
         }
 
-        // масив байт для представлення семплу
-        // (в даному випадку цілого числа)
+        // РјР°СЃРёРІ Р±Р°Р№С‚ РґР»СЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅСЏ СЃРµРјРїР»Сѓ
+        // (РІ РґР°РЅРѕРјСѓ РІРёРїР°РґРєСѓ С†С–Р»РѕРіРѕ С‡РёСЃР»Р°)
         byte[] sampleBytes = new byte[sampleSize];
 
-        // читаемо із даних байти які відповідають
-        // вказаному номеру семплу
+        // С‡РёС‚Р°РµРјРѕ С–Р· РґР°РЅРёС… Р±Р°Р№С‚Рё СЏРєС– РІС–РґРїРѕРІС–РґР°СЋС‚СЊ
+        // РІРєР°Р·Р°РЅРѕРјСѓ РЅРѕРјРµСЂСѓ СЃРµРјРїР»Сѓ
         for (int i = 0; i < sampleSize; i++) {
             sampleBytes[i] = data[sampleNumber * sampleSize + i];
         }
 
-        // претворюємо байти в ціле число
+        // РїСЂРµС‚РІРѕСЂСЋС”РјРѕ Р±Р°Р№С‚Рё РІ С†С–Р»Рµ С‡РёСЃР»Рѕ
         int sample = ByteBuffer.wrap(sampleBytes)
                 .order(ByteOrder.LITTLE_ENDIAN).getInt();
 
@@ -181,20 +181,20 @@ public class WaveFile {
     }
 
     /**
-     * Встановлює значення семплу
+     * Р’СЃС‚Р°РЅРѕРІР»СЋС” Р·РЅР°С‡РµРЅРЅСЏ СЃРµРјРїР»Сѓ
      *
-     * @param sampleNumber - номер семплу
-     * @param sampleValue  - значення семплу
+     * @param sampleNumber - РЅРѕРјРµСЂ СЃРµРјРїР»Сѓ
+     * @param sampleValue  - Р·РЅР°С‡РµРЅРЅСЏ СЃРµРјРїР»Сѓ
      */
     public void setSampleInt(int sampleNumber, int sampleValue) {
 
-        // представляємо ціле число у вигляді масива байт
+        // РїСЂРµРґСЃС‚Р°РІР»СЏС”РјРѕ С†С–Р»Рµ С‡РёСЃР»Рѕ Сѓ РІРёРіР»СЏРґС– РјР°СЃРёРІР° Р±Р°Р№С‚
         byte[] sampleBytes = ByteBuffer.allocate(sampleSize).
                 order(ByteOrder.LITTLE_ENDIAN).putInt(sampleValue).array();
 
-        // послідовно записуємо отримані байти
-        // в місце, которое відповідає вказаному
-        // номеру семплу
+        // РїРѕСЃР»С–РґРѕРІРЅРѕ Р·Р°РїРёСЃСѓС”РјРѕ РѕС‚СЂРёРјР°РЅС– Р±Р°Р№С‚Рё
+        // РІ РјС–СЃС†Рµ, РєРѕС‚РѕСЂРѕРµ РІС–РґРїРѕРІС–РґР°С” РІРєР°Р·Р°РЅРѕРјСѓ
+        // РЅРѕРјРµСЂСѓ СЃРµРјРїР»Сѓ
         for (int i = 0; i < sampleSize; i++) {
             data[sampleNumber * sampleSize + i] = sampleBytes[i];
         }
