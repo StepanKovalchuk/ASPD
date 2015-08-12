@@ -21,7 +21,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class WaveFile {
 
     private final int INT_SIZE = 4;
-    public final int NOT_SPECIFIED = -1;
+    private  final int NOT_SPECIFIED = -1;
     private int sampleSize = NOT_SPECIFIED;
     private int sampleSizeInBits = NOT_SPECIFIED;
     private float sampleRate = NOT_SPECIFIED;
@@ -62,7 +62,7 @@ public class WaveFile {
 
         // середня кількість біт на секунду, яку повинен обробляти аудіопрогравач,
         // щоб програвати цей звук у реальному часі
-        streamSpeed = af.getFrameSize()*af.getChannels()*(int)af.getFrameRate();
+        streamSpeed = af.getFrameSize() * af.getChannels() * (int) af.getFrameRate();
 
         // розмір семпла в байтах
         sampleSize = af.getSampleSizeInBits() / 8;
@@ -121,7 +121,8 @@ public class WaveFile {
      * @return масив байт
      */
     public byte[] getData() {
-        return Arrays.copyOf(data, data.length);
+//        return Arrays.copyOf(data, data.length);
+        return data.clone();
     }
 
     /**
@@ -134,7 +135,8 @@ public class WaveFile {
     }
 
     /**
-     *  Вертає кількість біт яке займає один семпл
+     * Вертає кількість біт яке займає один семпл
+     *
      * @return розмір семплу в бітах
      */
     public int getSampleSizeInBits() {
@@ -160,7 +162,7 @@ public class WaveFile {
     }
 
     /**
-     *  Вертає кількість каналів
+     * Вертає кількість каналів
      *
      * @return кількість каналв
      */
@@ -178,8 +180,8 @@ public class WaveFile {
     }
 
     /**
-     *  Вертає середню кількість біт на секунду, яку повинен обробляти аудіопрогравач,
-     // щоб програвати цей звук у реальному часі
+     * Вертає середню кількість біт на секунду, яку повинен обробляти аудіопрогравач,
+     * щоб програвати цей звук у реальному часі
      *
      * @return кількість біт на секунду
      */
@@ -193,7 +195,7 @@ public class WaveFile {
      * @param file Шлях для збереження файлу
      * @throws IOException
      */
-    public void saveFile(File file) throws IOException {
+    public void saveFile(File file, byte[] data) throws IOException {
         AudioSystem.write(new AudioInputStream(new ByteArrayInputStream(data),
                 af, framesCount), AudioFileFormat.Type.WAVE, file);
     }
