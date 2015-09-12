@@ -21,7 +21,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class WaveFile {
 
     private final int INT_SIZE = 4;
-    private  final int NOT_SPECIFIED = -1;
+    private final int NOT_SPECIFIED = -1;
     private int sampleSize = NOT_SPECIFIED;
     private int sampleSizeInBits = NOT_SPECIFIED;
     private float sampleRate = NOT_SPECIFIED;
@@ -203,7 +203,7 @@ public class WaveFile {
     /**
      * Вертає значення семплу по порядковому номеру.Якщо дані записані в 2 канали,
      * то необхідно враховувати, що семпли лівого і правого каналу чергуються.
-     * Наприклад, сепл під номером один це перший семпл лівого каналу,
+     * Наприклад, семпл під номером один це перший семпл лівого каналу,
      * семпл номер два це перший семпл правого каналу, семпл номер три це другий семпл
      * лівого каналу і т. д..
      *
@@ -224,10 +224,11 @@ public class WaveFile {
 
         // читаемо із даних байти які відповідають
         // вказаному номеру семплу
+
         for (int i = 0; i < sampleSize; i++) {
             sampleBytes[i] = data[sampleNumber * sampleSize + i];
         }
-
+        //TODO: BufferUnderflowException... fucking little smelly bug
         // претворюємо байти в ціле число
         int sample = ByteBuffer.wrap(sampleBytes)
                 .order(ByteOrder.LITTLE_ENDIAN).getInt();
@@ -244,14 +245,38 @@ public class WaveFile {
     public void setSampleInt(int sampleNumber, int sampleValue) {
 
         // представляємо ціле число у вигляді масива байт
+        //TODO: BufferUnderflowException... fucking little smelly bug
         byte[] sampleBytes = ByteBuffer.allocate(sampleSize).
                 order(ByteOrder.LITTLE_ENDIAN).putInt(sampleValue).array();
 
         // послідовно записуємо отримані байти
-        // в місце, которое відповідає вказаному
+        // в місце, яке відповідає вказаному
         // номеру семплу
         for (int i = 0; i < sampleSize; i++) {
             data[sampleNumber * sampleSize + i] = sampleBytes[i];
         }
     }
+
+    /**
+     * Вертає перший (малозначущий) біт семплу, кількість каналів невраховується
+     *
+     * @param sampleNumber - номер семпла
+     * @return - малозначущий біт семпла
+     */
+    public byte getLitteleBitOfSample(int sampleNumber) {
+        return data[sampleNumber * sampleSize];
+    }
+
+
+    /**
+     * Вствновлює значення першого (малозначущого) біту сумпла
+     *
+     * @param sampleNumber - номер семпла
+     * @param byteValue    - значення першого (малозначущого) біту сумпла
+     */
+    public void setLitteleBitOfSample(int sampleNumber, byte byteValue) {
+        data[sampleNumber * sampleSize] = byteValue;
+    }
+
+
 }
