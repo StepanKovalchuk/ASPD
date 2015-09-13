@@ -7,7 +7,7 @@ public class Main {
     public static void main( String[] args )
             throws FileNotFoundException, IOException {
 
-        File file = new File( "D:\\11.txt" );
+        File file = new File( "D:\\22.txt" );
 
         BufferedReader br = new BufferedReader (
                 new InputStreamReader(
