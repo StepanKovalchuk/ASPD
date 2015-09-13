@@ -62,6 +62,7 @@ public class WaveFile {
 
         // середня кількість біт на секунду, яку повинен обробляти аудіопрогравач,
         // щоб програвати цей звук у реальному часі
+        //TODO: need to check this...
         streamSpeed = af.getFrameSize() * af.getChannels() * (int) af.getFrameRate();
 
         // розмір семпла в байтах
