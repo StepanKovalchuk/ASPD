@@ -1,4 +1,4 @@
-package org.aspd;
+package org.aspd.sergiiTest;
 
 /**
  * Created by Ra1004ek on 03.08.2015.

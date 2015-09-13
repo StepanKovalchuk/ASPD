@@ -1,25 +1,23 @@
-package org.aspd;
-
-import com.sun.javafx.animation.TickCalculation;
+package org.aspd.sergiiTest;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
 
-        String inPath = "D:\\Work\\ASPD\\TestData\\Sound\\3.wav";
-        String outPath = "D:\\Work\\ASPD\\TestData\\Sound\\test3.wav";
+        String inPath = "D:\\ASPD\\TestData\\1.wav";
+        String outPath = "D:\\ASPD\\TestData\\out1.wav";
 
         WaveFile wf = new WaveFile(new File(inPath));
 
         byte[] tempData = wf.getData();
+        System.out.println("Array length = " + tempData.length);
+
+        System.out.println("Frames = " + wf.getFramesCount()*4);
 //        int sample = wf.getSampleInt(10000);
-        wf.setSampleInt(12000, 128);
+//        wf.setSampleInt(12000, 128);
 
 
 //        Arrays.sort(tempData);
@@ -28,17 +26,6 @@ public class Main {
 
 //        wf.saveFile(new File(outPath), tempData);
 
-        System.out.println("Channels = " + wf.getChannels());
-//        System.out.println(wf.getSampleRate());
-//        System.out.println(wf.getSampleSizeInBits());
-        System.out.println(wf.getStreamSpeed());
-
-//        for (int i = 100; i < 102; i++)
-//            System.out.println(wf.getSampleInt(3));
-//
-        System.out.println(wf.getSampleSize());
-        System.out.println(wf.getFramesCount());
-//        System.out.println(wf.getData().length/4);
 
 
 
