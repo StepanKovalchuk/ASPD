@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.file.Files;
 import java.util.Arrays;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
@@ -18,7 +19,10 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 
-public class WaveFile {
+public class WaveStorage {
+
+    private String fileExtension = null;
+    private String fileType = null;
 
     private final int INT_SIZE = 4;
     private final int NOT_SPECIFIED = -1;
@@ -39,11 +43,16 @@ public class WaveFile {
      * @throws UnsupportedAudioFileException
      * @throws IOException
      */
-    WaveFile(File file) throws UnsupportedAudioFileException, IOException {
+    public WaveStorage(File file) throws UnsupportedAudioFileException, IOException {
 
         if (!file.exists()) {
             throw new FileNotFoundException(file.getAbsolutePath());
         }
+        // get file type
+        fileType = Files.probeContentType(file.toPath());
+
+        //get file extension
+        fileExtension = file.getName().substring(file.getName().lastIndexOf('.')+1);
 
         // get audio data stream
         ais = AudioSystem.getAudioInputStream(file);
@@ -57,7 +66,7 @@ public class WaveFile {
         // get sample rate
         sampleRate = af.getSampleRate();
 
-        // get quantity frames og audio file
+        // get quantity frames of audio file
         framesCount = ais.getFrameLength();
 
         // середня кількість біт на секунду, яку повинен обробляти аудіопрогравач,
@@ -88,7 +97,7 @@ public class WaveFile {
      * @param samples    - массив значень (дані)
      * @throws Exception якщо розмір семпла меньше чим необхідно для збереження змінної int
      */
-    WaveFile(int sampleSize, float sampleRate, int channels, int[] samples) throws Exception {
+    /*public WaveStorage(int sampleSize, float sampleRate, int channels, int[] samples) throws Exception {
 
         if (sampleSize < INT_SIZE) {
             throw new Exception("sample size < int size");
@@ -105,7 +114,7 @@ public class WaveFile {
 
         framesCount = data.length / (sampleSize * af.getChannels());
         ais = new AudioInputStream(new ByteArrayInputStream(data), af, framesCount);
-    }
+    }*/
 
     /**
      * Вертає формат аудіо-диних
@@ -122,7 +131,6 @@ public class WaveFile {
      * @return масив байт
      */
     public byte[] getData() {
-//        return Arrays.copyOf(data, data.length);
         return data.clone();
     }
 
@@ -191,7 +199,7 @@ public class WaveFile {
     }
 
     /**
-     * Зберігає об"єкт WaveFile в стандартний файл формата WAVE
+     * Зберігає об"єкт WaveStorage в стандартний файл формата WAVE
      *
      * @param file Шлях для збереження файлу
      * @throws IOException
@@ -211,7 +219,7 @@ public class WaveFile {
      * @param sampleNumber - номер семпла, починаючи з 0
      * @return значення семпла
      */
-    public int getSampleInt(int sampleNumber) {
+    private int getSampleInt(int sampleNumber) {
 
         if (sampleNumber < 0 || sampleNumber >= data.length / sampleSize) {
             throw new IllegalArgumentException(
@@ -243,7 +251,7 @@ public class WaveFile {
      * @param sampleNumber - номер семплу
      * @param sampleValue  - значення семплу
      */
-    public void setSampleInt(int sampleNumber, int sampleValue) {
+    private void setSampleInt(int sampleNumber, int sampleValue) {
 
         // представляємо ціле число у вигляді масива байт
         //TODO: BufferUnderflowException... fucking little smelly bug
@@ -264,7 +272,7 @@ public class WaveFile {
      * @param sampleNumber - номер семпла
      * @return - малозначущий біт семпла
      */
-    public byte getLitteleBitOfSample(int sampleNumber) {
+    public byte getLSByteOfSample(int sampleNumber) {
         return data[sampleNumber * sampleSize];
     }
 
@@ -275,7 +283,7 @@ public class WaveFile {
      * @param sampleNumber - номер семпла
      * @param byteValue    - значення першого (малозначущого) біту сумпла
      */
-    public void setLitteleBitOfSample(int sampleNumber, byte byteValue) {
+    public void setLSByteOfSample(int sampleNumber, byte byteValue) {
         data[sampleNumber * sampleSize] = byteValue;
     }
 
