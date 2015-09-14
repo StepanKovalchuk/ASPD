@@ -72,7 +72,7 @@ public class WaveStorage {
         // середня кількість біт на секунду, яку повинен обробляти аудіопрогравач,
         // щоб програвати цей звук у реальному часі
         //TODO: need to check this...
-        streamSpeed = af.getFrameSize() * af.getChannels() * (int) af.getFrameRate();
+        streamSpeed = (int)(af.getFrameSize() * af.getChannels() * af.getFrameRate());
 
         // розмір семпла в байтах
         sampleSize = af.getSampleSizeInBits() / 8;
