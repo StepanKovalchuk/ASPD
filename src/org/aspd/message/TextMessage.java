@@ -7,5 +7,5 @@ package org.aspd.message;
 public class TextMessage implements Message
 {
   private String message = null;
-  private String fileExtention = null;
+  private String fileExtension = null;
 }

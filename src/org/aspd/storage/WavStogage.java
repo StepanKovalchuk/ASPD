@@ -6,7 +6,7 @@ package org.aspd.storage;
  */
 public class WavStogage implements Storage
 {
-  private String extention = null;
-  private String format = null;
+  private String fileExtension = null;
+  private String fileFormat = null;
   private java.io.File file;
 }
