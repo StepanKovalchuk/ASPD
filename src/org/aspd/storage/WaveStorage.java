@@ -285,7 +285,10 @@ public class WaveStorage implements Storage {
     }
 
 
-
-
+    @Override
+    public byte[] getBytes()
+    {
+        return new byte[0];
+    }
 }
 

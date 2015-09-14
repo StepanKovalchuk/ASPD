@@ -8,4 +8,10 @@ public class TextMessage implements Message
 {
   private String message = null;
   private String fileExtension = null;
+
+  @Override
+  public byte[] getBytes()
+  {
+    return new byte[0];
+  }
 }
